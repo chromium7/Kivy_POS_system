@@ -1,0 +1,232 @@
+<FlatButton@ButtonBehavior+Label>:
+    font_size: 14
+
+<ScreenManagement>:
+    OperatorScreen:
+        name: "operator_screen"
+
+<OperatorScreen>:
+    BoxLayout:
+        id: main_win
+        orientation: "vertical"
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        BoxLayout:
+            id: header
+            size_hint_y: None
+            height: 40
+
+            canvas.before:
+                Color:
+                    rgba: 0.4, 0.5, 0.6, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Label:
+                text: "Pepeg Store Point of Sale"
+                size_hint_x: 0.9
+                bold: True
+                color: 1, 1, 1, 1
+
+            FlatButton:
+                id: loggedin_user
+                text: "jdoe"
+                size_hint_x: 0.1
+                color: 1, 1, 1, 1
+
+        BoxLayout:
+            id: current
+            size_hint_y: None
+            height: 50
+
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Button:
+                text: "Current Item:"
+                background_normal: ""
+                background_color: 0.4, 0.45, 0.55, 1
+                size_hint_x: 0.4
+
+            Button:
+                id: cur_product
+                text: "Default Product"
+                background_normal: ""
+                background_color: 0.4, 0.55, 0.65, 1
+
+            Button:
+                id: cur_price
+                text: "0.00"
+                background_normal: ""
+                background_color: 0.4, 0.6, 0.7, 1
+                size_hint_x: 0.2
+
+        BoxLayout:
+            padding: 10
+            BoxLayout:
+                id: product_details
+                orientation: "vertical"
+                size_hint_x: 0.8
+                spacing: 10
+
+                BoxLayout:
+                    id: product_labels
+                    size_hint_y: None
+                    height: 40
+
+                    canvas.before:
+                        Color:
+                            rgba: 0.4, 0.5, 0.6, 1
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+                    FlatButton:
+                        text: "Qty"
+                        size_hint_x: 0.1
+
+                    FlatButton:
+                        text: "Product Code"
+                        size_hint_x: 0.3
+
+                    FlatButton:
+                        text: "Disc"
+                        size_hint_x: 0.1
+
+                    FlatButton:
+                        text: "Disc %"
+                        size_hint_x: 0.1
+
+                    FlatButton:
+                        text: "VAT"
+                        size_hint_x: 0.1
+
+                    FlatButton:
+                        text: "Price"
+                        size_hint_x: 0.1
+
+                    FlatButton:
+                        text: "Product Total"
+                        size_hint_x: 0.2
+
+                BoxLayout:
+                    id: product_inputs
+                    size_hint_y: None
+                    height: 30
+                    spacing: 5
+
+                    TextInput:
+                        id: qty_inp
+                        size_hint_x: 0.1
+                        multiline: False
+
+                    TextInput:
+                        id: code_inp
+                        size_hint_x: 0.3
+                        multiline: False
+                        on_text_validate:
+                            root.update_purchases()
+
+                    TextInput:
+                        id: disc_inp
+                        size_hint_x: 0.1
+                        multiline: False
+
+                    TextInput:
+                        id: disc_perc_inp
+                        size_hint_x: 0.1
+                        multiline: False
+
+                    TextInput:
+                        id: val_inp
+                        size_hint_x: 0.1
+                        multiline: False
+
+                    TextInput:
+                        id: price_in
+                        size_hint_x: 0.1
+                        multiline: False
+
+                    TextInput:
+                        id: total_inp
+                        size_hint_x: 0.2
+                        multiline: False
+
+                BoxLayout:
+                    id: add_to_cart
+                    orientation: "vertical"
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: 30
+
+                        canvas.before:
+                            Color:
+                                rgba: 0.4, 0.5, 0.6, 1
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+
+                        Label:
+                            text: "Code"
+                            size_hint_x: 0.25
+
+                        Label:
+                            text: "Product Name"
+                            size_hint_x: 0.25
+
+                        Label:
+                            text: "Qty"
+                            size_hint_x: 0.1
+
+                        Label:
+                            text: "Disc"
+                            size_hint_x: 0.1
+
+                        Label:
+                            text: "Price"
+                            size_hint_x: 0.1
+
+                        Label:
+                            text: "Product Total"
+                            size_hint_x: 0.2
+
+                    GridLayout:
+                        id: products
+                        cols: 1
+
+            BoxLayout:
+                id: preview
+                orientation: "vertical"
+                size_hint_x: 0.2
+
+                TextInput:
+                    id: receipt_preview
+                    readonly: True
+                    text:
+                        "The Pepegas\nKappa123 Street\nPussyville, Alexandra Daddario\n\nTel: (123)-696-696\nReceipt No: \nDate: \n\n"
+
+        BoxLayout:
+            id: footer
+            size_hint_y: None
+            height: 30
+            canvas.before:
+                Color:
+                    rgba: 0.4, 0.5, 0.6, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Label:
+                text: "Maintained by Chromium 123"
+
+
