@@ -1,119 +1,216 @@
+#: import Window kivy.core.window.Window
+
 <FlatButton@ButtonBehavior+Label>
     text: "default"
 
-<ScreenManagement>:
-    AdminScreen:
-        name: "admin_screen"
-
 <AdminScreen>:
+    id: admin_screen
+    orientation: "vertical"
+
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
     BoxLayout:
-        id: admin_screen
-        orientation: "vertical"
+        id: top_nav
+        size_hint_y: None
+        height: 30
 
         canvas.before:
             Color:
-                rgba: 1, 1, 1, 1
+                rgba: 0.4, 0.5, 0.6, 1
             Rectangle:
                 pos: self.pos
                 size: self.size
 
-        BoxLayout:
-            id: top_nav
-            size_hint_y: None
+        FlatButton:
+            id: file_trigger
+            text: "File"
+            on_release:
+                file_dropdown.open(self)
+            size_hint: 0.1, None
             height: 30
+
+            Widget:
+                on_parent: file_dropdown.dismiss()
+
+                DropDown:
+                    id: file_dropdown
+                    Button:
+                        id: logout_button
+                        text: "Log Out"
+                        size_hint_y: None
+                        height: 30
+                        on_release: root.logout()
+                    Button:
+                        id: close_button
+                        text: "Close"
+                        size_hint_y:None
+                        height:30
+                        on_release: Window.close()
+
+        Label:
+            text: "Admin Dashboard"
+            bold: True
+            size_hint: 0.9, None
+            height: 30
+
+    BoxLayout:
+        id: content_nav
+
+        BoxLayout:
+            id: nav_tab
+            size_hint_x: 0.2
+            orientation: "vertical"
+            spacing: 3
+            padding: 2
 
             canvas.before:
                 Color:
-                    rgba: 0.4, 0.5, 0.6, 1
+                    rgba: 0.4, 0.45, 0.55, 1
                 Rectangle:
                     pos: self.pos
                     size: self.size
 
-            FlatButton:
-                id: file_trigger
-                text: "File"
-                on_release:
-                    file_dropdown.open(self)
-                size_hint: 0.1, None
-                height: 30
+            ToggleButton:
+                id: user_toggle
+                text: "Manage Users"
+                size_hint_y: 0.1
+                state: "down"
+                background_color: 0.4, 0.55, 0.65, 1
+                background_normal: ""
+                group: "admin_navs"
+                on_state: root.change_screen(self)
 
-                Widget:
-                    on_parent: file_dropdown.dismiss()
+            ToggleButton:
+                id: products_toggle
+                text: "Manage Products"
+                size_hint_y: 0.1
+                background_color: 0.4, 0.55, 0.65, 1
+                background_normal: ""
+                group: "admin_navs"
+                on_state: root.change_screen(self)
 
-                    DropDown:
-                        id: file_dropdown
-                        Button:
-                            id: close_button
-                            text: "Quit"
-                            size_hint_y: None
-                            height: 30
+            ToggleButton:
+                id: analysis_toggle
+                text: "Product Analysis"
+                size_hint_y: 0.1
+                background_color: 0.4, 0.55, 0.65, 1
+                background_normal: ""
+                group: "admin_navs"
+                on_state: root.change_screen(self)
 
             Label:
-                text: "Admin Dashboard"
-                bold: True
-                size_hint: 0.9, None
-                height: 30
+                id: sp
+                text: ""
+                size_hint_y: 0.7
 
         BoxLayout:
-            id: content_nav
+            id: content123
+            size_hint_x: 0.8
+            padding: 20, 10
 
-            BoxLayout:
-                id: nav_tab
-                size_hint_x: 0.2
-                orientation: "vertical"
-                spacing: 3
-                padding: 2
+            ScreenManager:
+                id: screen_manager
+                Screen:
+                    id: screen_content
+                    name: "screen_content"
+                    BoxLayout:
+                        orientation: "vertical"
+                        spacing: 10
+                        BoxLayout:
+                            id: screen_contents
+                        BoxLayout:
+                            id: ops_field
+                            spacing: 10
+                            size_hint_y: None
+                            height: 35
+                        BoxLayout:
+                            id: ops_btn
+                            spacing: 10
+                            size_hint_y: None
+                            height: 45
+                            Button:
+                                id: crud_add
+                                text: "Add User"
+                                background_color: 0.4, 0.45, 0.55, 1
+                                background_normal: ""
+                                on_release: root.add_user_fields()
+                            Button:
+                                id: crud_update
+                                text: "Update User"
+                                background_color: 0.4, 0.45, 0.55, 1
+                                background_normal: ""
+                                on_release: root.update_user_fields()
+                            Button:
+                                id: crud_remove
+                                text: "Remove User"
+                                background_color: 0.4, 0.45, 0.55, 1
+                                background_normal: ""
+                                on_release: root.remove_user_fields()
 
-                canvas.before:
-                    Color:
-                        rgba: 0.4, 0.45, 0.55, 1
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
+                Screen:
+                    id: screen_product_content
+                    name: "screen_product_content"
+                    BoxLayout:
+                        orientation: "vertical"
+                        spacing: 10
+                        BoxLayout:
+                            id: screen_product_contents
+                        BoxLayout:
+                            id: ops_field_p
+                            spacing: 10
+                            size_hint_y: None
+                            height: 35
+                        BoxLayout:
+                            id: ops_btn_p
+                            spacing: 10
+                            size_hint_y: None
+                            height: 45
+                            Button:
+                                id: crud_add_p
+                                text: "Add Product"
+                                background_color: 0.4, 0.45, 0.55, 1
+                                background_normal: ""
+                                on_release: root.add_product_fields()
+                            Button:
+                                id: crud_update_p
+                                text: "Update Product"
+                                background_color: 0.4, 0.45, 0.55, 1
+                                background_normal: ""
+                                on_release: root.update_product_fields()
+                            Button:
+                                id: crud_remove_p
+                                text: "Remove Product"
+                                background_color: 0.4, 0.45, 0.55, 1
+                                background_normal: ""
+                                on_release: root.remove_product_fields()
 
-                ToggleButton:
-                    id: user_toggle
-                    text: "Manage Users"
-                    size_hint_y: 0.1
-                    state: "down"
-                    background_color: 0.4, 0.55, 0.65, 1
-                    background_normal: ""
+                Screen:
+                    id: screen_analysis
+                    name: "screen_analysis"
+                    BoxLayout:
+                        orientation: "vertical"
+                        spacing: 10
 
-                ToggleButton:
-                    id: products_toggle
-                    text: "Manage Products"
-                    size_hint_y: 0.1
-                    background_color: 0.4, 0.55, 0.65, 1
-                    background_normal: ""
+                        BoxLayout:
+                            size_hint_y: None
+                            height: 45
+                            Spinner:
+                                id: target_product
+                                text: "Choose Product"
+                                background_color: 0.4, 0.5, 0.6, 1
+                                background_normal: ""
+                            Button:
+                                id: submit_analysis
+                                text: "View Stats"
+                                size_hint_x: 0.3
+                                on_release: root.view_stats()
 
-                ToggleButton:
-                    id: analysis_toggle
-                    text: "Product Analysis"
-                    size_hint_y: 0.1
-                    background_color: 0.4, 0.55, 0.65, 1
-                    background_normal: ""
-
-                Label:
-                    id: sp
-                    text: ""
-                    size_hint_y: 0.7
-
-            BoxLayout:
-                id: content
-                size_hint_x: 0.8
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                        BoxLayout:
+                            id: analysis_res
 
 

@@ -1,35 +1,27 @@
 from kivy.app import App
-from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import ObjectProperty
+from admin.admin import AdminScreen
+from login.login import LoginScreen
+from pos_operator.operator import OperatorScreen
 
 
-class LoginScreen(Screen):
-    user_field = ObjectProperty(None)
-    pw_field = ObjectProperty(None)
-    info = ObjectProperty(None)
+class MainScreen(BoxLayout):
+    login_widget = LoginScreen()
+    admin_widget = AdminScreen()
+    operator_widget = OperatorScreen()
 
-    def validate_user(self):
-        username = self.user_field.text.strip()
-        password = self.pw_field.text.strip()
+    def __init__(self, **kwargs):
+        super(MainScreen, self).__init__(**kwargs)
 
-        if username == "" or password == "":
-            self.info.text = "[color=#FF0000]Username and/ or password required[/color]"
-        else:
-            if username == "admin" and password == "admin":
-                self.info.text = "[color=#00FF00]Logged in Successfully[/color]"
-            else:
-                self.info.text = "[color=#FF0000]Invalid username and/ or password[/color]"
+        self.ids.login_screen.add_widget(self.login_widget)
+        self.ids.admin_screen.add_widget(self.admin_widget)
+        self.ids.operator_screen.add_widget(self.operator_widget)
 
 
-class ScreenManagement(ScreenManager):
-    pass
-
-
-class MainSys(App):
+class MainApp(App):
     def build(self):
-        return ScreenManagement()
+        return MainScreen()
 
 
 if __name__ == '__main__':
-    MainSys().run()
+    MainApp().run()
